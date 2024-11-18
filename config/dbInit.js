@@ -95,14 +95,12 @@ const createTables = async () => {
     console.log("Events table created successfully");
 
     // Insert sample user for testing
-    const hashedPassword = await bcrypt.hash("password123", 10);
-    await db.query(
-      `
+    const hashedPassword = await bcrypt.hash('password123', 10);
+    await db.query(`
       INSERT INTO users (email, password_hash, username, full_name)
       VALUES ($1, $2, $3, $4)
       ON CONFLICT (email) DO NOTHING
-    `,
-      ["test@example.com", hashedPassword, "testuser", "Test User"]
+    `, ['testuser@lsu.edu', hashedPassword, 'testuser', 'Test User']
     );
     console.log("Sample user created successfully");
 
@@ -158,6 +156,7 @@ const createTables = async () => {
     `);
     console.log("Sample event created successfully");
 
+    
     // Insert sample message
     const testUserId = await db.query("SELECT id FROM users WHERE email = $1", [
       "test@example.com",

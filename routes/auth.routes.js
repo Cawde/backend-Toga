@@ -10,10 +10,21 @@ const db = require('../config/database');
 */
 
 
+const isValidLsuEmail = (email) => {
+  return email.toLowerCase().endsWith('@lsu.edu');
+};
+
 router.post('/register', async (req, res) => {
   try {
     const { email, password, username, full_name } = req.body;
     
+    if (!isValidLsuEmail(email)) {
+      return res.status(400).json({ 
+        error: 'Invalid email domain', 
+        message: 'Only LSU email addresses (@lsu.edu) are allowed to register' 
+      });
+    }
+
     // Check if user already exists
     const existingUser = await db.query(
       'SELECT * FROM users WHERE email = $1 OR username = $2',
@@ -24,11 +35,9 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user
     const { rows } = await db.query(
       `INSERT INTO users (email, password_hash, username, full_name)
        VALUES ($1, $2, $3, $4)
@@ -36,7 +45,6 @@ router.post('/register', async (req, res) => {
       [email, hashedPassword, username, full_name]
     );
 
-    // Generate token
     const token = jwt.sign(
       { id: rows[0].id, email: rows[0].email },
       process.env.JWT_SECRET,
@@ -54,7 +62,13 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user
+    if (!isValidLsuEmail(email)) {
+      return res.status(400).json({ 
+        error: 'Invalid email domain', 
+        message: 'Only LSU email addresses (@lsu.edu) are allowed' 
+      });
+    }
+
     const { rows } = await db.query(
       'SELECT * FROM users WHERE email = $1',
       [email]
@@ -64,13 +78,11 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'User not found' });
     }
 
-    // Verify password
     const validPassword = await bcrypt.compare(password, rows[0].password_hash);
     if (!validPassword) {
       return res.status(400).json({ error: 'Invalid password' });
     }
 
-    // Generate token
     const token = jwt.sign(
       { id: rows[0].id, email: rows[0].email },
       process.env.JWT_SECRET,
