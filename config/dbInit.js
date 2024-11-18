@@ -1,13 +1,15 @@
-const db = require('./database');
-const bcrypt = require('bcrypt');
-
+const db = require("./database");
+const bcrypt = require("bcrypt");
+/*  IMPORTANT: Purpose of this file is to insert sample user for testing. 
+    Will need much more seed data for a fully functioning and testable app!
+*/
 const createTables = async () => {
   try {
     // Enable UUID extension
     await db.query(`
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
     `);
-    console.log('UUID extension enabled');
+    console.log("UUID extension enabled");
 
     // Create users table
     await db.query(`
@@ -22,7 +24,7 @@ const createTables = async () => {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('Users table created successfully');
+    console.log("Users table created successfully");
 
     // Create clothing items table
     await db.query(`
@@ -43,7 +45,7 @@ const createTables = async () => {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('Clothing items table created successfully');
+    console.log("Clothing items table created successfully");
 
     // Create transactions table
     await db.query(`
@@ -61,7 +63,7 @@ const createTables = async () => {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('Transactions table created successfully');
+    console.log("Transactions table created successfully");
 
     // Create messages table
     await db.query(`
@@ -74,7 +76,7 @@ const createTables = async () => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('Messages table created successfully');
+    console.log("Messages table created successfully");
 
     // Create events table
     await db.query(`
@@ -90,16 +92,19 @@ const createTables = async () => {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    console.log('Events table created successfully');
+    console.log("Events table created successfully");
 
     // Insert sample user for testing
-    const hashedPassword = await bcrypt.hash('password123', 10);
-    await db.query(`
+    const hashedPassword = await bcrypt.hash("password123", 10);
+    await db.query(
+      `
       INSERT INTO users (email, password_hash, username, full_name)
       VALUES ($1, $2, $3, $4)
       ON CONFLICT (email) DO NOTHING
-    `, ['test@example.com', hashedPassword, 'testuser', 'Test User']);
-    console.log('Sample user created successfully');
+    `,
+      ["test@example.com", hashedPassword, "testuser", "Test User"]
+    );
+    console.log("Sample user created successfully");
 
     // Insert sample clothing items
     await db.query(`
@@ -128,7 +133,7 @@ const createTables = async () => {
         SELECT 1 FROM clothing_items WHERE title = 'Blue Jeans'
       )
     `);
-    console.log('Sample clothing item created successfully');
+    console.log("Sample clothing item created successfully");
 
     // Insert sample event
     await db.query(`
@@ -151,12 +156,15 @@ const createTables = async () => {
         SELECT 1 FROM events WHERE title = 'Summer Fashion Show'
       )
     `);
-    console.log('Sample event created successfully');
+    console.log("Sample event created successfully");
 
     // Insert sample message
-    const testUserId = await db.query('SELECT id FROM users WHERE email = $1', ['test@example.com']);
+    const testUserId = await db.query("SELECT id FROM users WHERE email = $1", [
+      "test@example.com",
+    ]);
     if (testUserId.rows.length > 0) {
-      await db.query(`
+      await db.query(
+        `
         INSERT INTO messages (
           sender_id,
           receiver_id,
@@ -164,13 +172,15 @@ const createTables = async () => {
         )
         VALUES ($1, $1, $2)
         ON CONFLICT DO NOTHING
-      `, [testUserId.rows[0].id, 'Welcome to the platform!']);
-      console.log('Sample message created successfully');
+      `,
+        [testUserId.rows[0].id, "Welcome to the platform!"]
+      );
+      console.log("Sample message created successfully");
     }
 
-    console.log('All tables and sample data created successfully!');
+    console.log("All tables and sample data created successfully!");
   } catch (error) {
-    console.error('Error initializing database:', error);
+    console.error("Error initializing database:", error);
     throw error;
   }
 };
@@ -178,10 +188,10 @@ const createTables = async () => {
 // Run the initialization
 createTables()
   .then(() => {
-    console.log('Database initialization completed');
+    console.log("Database initialization completed");
     process.exit(0);
   })
   .catch((error) => {
-    console.error('Database initialization failed:', error);
+    console.error("Database initialization failed:", error);
     process.exit(1);
   });
