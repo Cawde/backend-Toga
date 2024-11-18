@@ -4,6 +4,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../config/database');
 
+/* IMPORTANT NOTE: 
+    "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
+    Otherwise an unauthorized error will be returned.
+*/
+
+
 router.post('/register', async (req, res) => {
   try {
     const { email, password, username, full_name } = req.body;

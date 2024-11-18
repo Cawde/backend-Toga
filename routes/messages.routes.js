@@ -3,6 +3,11 @@ const router = express.Router();
 const { authenticateToken } = require('../middleware/auth.middleware');
 const db = require('../config/database');
 
+/* IMPORTANT NOTE: 
+    "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
+    Otherwise an unauthorized error will be returned.
+*/
+
 // Send a message
 router.post('/', authenticateToken, async (req, res) => {
   try {
@@ -78,5 +83,45 @@ router.get('/:userId', authenticateToken, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
+// ============== Experimental features below =================
+
+// Mark messages as read
+router.put('/:messageId/read', authenticateToken, async (req, res) => {
+    try {
+      const { rows } = await db.query(
+        `UPDATE messages 
+         SET read = true 
+         WHERE id = $1 AND receiver_id = $2
+         RETURNING *`,
+        [req.params.messageId, req.user.id]
+      );
+  
+      if (rows.length === 0) {
+        return res.status(404).json({ error: 'Message not found or unauthorized' });
+      }
+  
+      res.json(rows[0]);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+  
+  // Get unread message count
+  router.get('/unread/count', authenticateToken, async (req, res) => {
+    try {
+      const { rows } = await db.query(
+        `SELECT COUNT(*) 
+         FROM messages 
+         WHERE receiver_id = $1 AND read = false`,
+        [req.user.id]
+      );
+      
+      res.json({ unread_count: parseInt(rows[0].count) });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
 
 module.exports = router;

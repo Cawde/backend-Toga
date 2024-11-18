@@ -3,6 +3,12 @@ const router = express.Router();
 const { authenticateToken } = require('../middleware/auth.middleware');
 const db = require('../config/database');
 
+/* IMPORTANT NOTE: 
+    "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
+    Otherwise an unauthorized error will be returned.
+*/
+
+
 // Get all items with pagination and filters
 router.get('/', async (req, res) => {
   try {
