@@ -6,9 +6,9 @@ require('dotenv').config();
 const authRoutes = require('../routes/auth.routes');
 const itemRoutes = require('../routes/items.routes');
 const userRoutes = require('../routes/users.routes');
-//const transactionRoutes = require('./routes/transactions.routes');
-//const messageRoutes = require('./routes/messages.routes');
-//const eventRoutes = require('./routes/events.routes');
+const transactionRoutes = require('../routes/transactions.routes');
+const messageRoutes = require('../routes/messages.routes');
+const eventRoutes = require('../routes/events.routes');
 const db = require('../config/database');
 const app = express();
 
@@ -21,9 +21,9 @@ app.use(morgan('dev'));
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
-//app.use('/api/transactions', transactionRoutes);
-//app.use('/api/messages', messageRoutes);
-//app.use('/api/events', eventRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/events', eventRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

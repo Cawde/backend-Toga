@@ -45,7 +45,54 @@ const createTables = async () => {
     `);
     console.log('Clothing items table created successfully');
 
-    // Insert sample user for testing. This will need to be added to extensively to have a well functioning app for testing.
+    // Create transactions table
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS transactions (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        item_id UUID REFERENCES clothing_items(id),
+        buyer_id UUID REFERENCES users(id),
+        seller_id UUID REFERENCES users(id),
+        transaction_type VARCHAR(20) NOT NULL,
+        status VARCHAR(50) NOT NULL,
+        start_date TIMESTAMP,
+        end_date TIMESTAMP,
+        price DECIMAL(10,2) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log('Transactions table created successfully');
+
+    // Create messages table
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS messages (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        sender_id UUID REFERENCES users(id),
+        receiver_id UUID REFERENCES users(id),
+        content TEXT NOT NULL,
+        read BOOLEAN DEFAULT false,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log('Messages table created successfully');
+
+    // Create events table
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS events (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        creator_id UUID REFERENCES users(id),
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        event_date TIMESTAMP NOT NULL,
+        location VARCHAR(255),
+        image_url VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log('Events table created successfully');
+
+    // Insert sample user for testing
     const hashedPassword = await bcrypt.hash('password123', 10);
     await db.query(`
       INSERT INTO users (email, password_hash, username, full_name)
@@ -82,6 +129,44 @@ const createTables = async () => {
       )
     `);
     console.log('Sample clothing item created successfully');
+
+    // Insert sample event
+    await db.query(`
+      INSERT INTO events (
+        creator_id,
+        title,
+        description,
+        event_date,
+        location,
+        image_url
+      )
+      SELECT 
+        (SELECT id FROM users WHERE email = 'test@example.com'),
+        'Summer Fashion Show',
+        'Annual summer fashion exhibition',
+        CURRENT_TIMESTAMP + interval '30 days',
+        'Central Park',
+        'event1.jpg'
+      WHERE NOT EXISTS (
+        SELECT 1 FROM events WHERE title = 'Summer Fashion Show'
+      )
+    `);
+    console.log('Sample event created successfully');
+
+    // Insert sample message
+    const testUserId = await db.query('SELECT id FROM users WHERE email = $1', ['test@example.com']);
+    if (testUserId.rows.length > 0) {
+      await db.query(`
+        INSERT INTO messages (
+          sender_id,
+          receiver_id,
+          content
+        )
+        VALUES ($1, $1, $2)
+        ON CONFLICT DO NOTHING
+      `, [testUserId.rows[0].id, 'Welcome to the platform!']);
+      console.log('Sample message created successfully');
+    }
 
     console.log('All tables and sample data created successfully!');
   } catch (error) {
