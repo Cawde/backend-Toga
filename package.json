@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "init-db": "node config/dbInit.js",
+    "init-db": "node src/config/dbInit.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
@@ -27,10 +27,13 @@
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "nodemon": "^3.0.2"
   },
   "devDependencies": {
-    "eslint": "^9.15.0",
-    "nodemon": "^3.0.2"
+    "eslint": "^9.15.0"
+  },
+  "engines": { 
+    "node": ">=14.0.0"
   }
 }
