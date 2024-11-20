@@ -2,7 +2,7 @@
   "name": "backend-toga",
   "version": "1.0.0",
   "description": "Backend server for Toga clothing rental and buying application",
-  "main": "src/server.js",
+  "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
