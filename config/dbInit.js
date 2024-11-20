@@ -10,7 +10,14 @@ const createTables = async () => {
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
     `);
     console.log("UUID extension enabled");
-    await db.query(`DROP TYPE IF EXISTS clothing_items CASCADE;`);
+
+    try {
+      await db.query(`DROP TYPE IF EXISTS clothing_items CASCADE;`);
+    } catch (e) {
+  
+      console.log("No existing type to drop");
+    }
+    
     // Create users table
     await db.query(`
       CREATE TABLE IF NOT EXISTS users (
