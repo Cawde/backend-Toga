@@ -27,6 +27,10 @@ app.get("/healthz", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
+app.get("/", (req, res) => {
+  res.send("Toga backend server is running");
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/items", itemRoutes);
