@@ -1,3 +1,4 @@
+const create = require("prompt-sync");
 const db = require("./database");
 const bcrypt = require("bcrypt");
 /*  IMPORTANT: Purpose of this file is to insert sample user for testing. 
@@ -194,3 +195,5 @@ createTables()
     console.error("Database initialization failed:", error);
     process.exit(1);
   });
+
+  module.exports = createTables;
