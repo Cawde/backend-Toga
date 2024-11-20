@@ -17,7 +17,7 @@ const createTables = async () => {
   
       console.log("No existing type to drop");
     }
-    
+
     // Create users table
     await db.query(`
       CREATE TABLE IF NOT EXISTS users (
@@ -195,11 +195,9 @@ const createTables = async () => {
 createTables()
   .then(() => {
     console.log("Database initialization completed");
-    process.exit(0);
   })
   .catch((error) => {
     console.error("Database initialization failed:", error);
-    process.exit(1);
   });
 
   module.exports = createTables;
