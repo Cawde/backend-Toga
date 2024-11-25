@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateToken } = require('../middleware/auth.middleware');
+const { authenticateClerk } = require('../middleware/auth.middleware');
 const db = require('../config/database');
 
 /* IMPORTANT NOTE: 
-    "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
+    "authenticateClerk" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
     Otherwise an unauthorized error will be returned.
 */
 
@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', authenticateClerk, async (req, res) => {
   try {
     const {
       title,

@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateToken } = require('../middleware/auth.middleware');
+const { authenticateClerk } = require('../middleware/auth.middleware');
 const db = require('../config/database');
 
 /* IMPORTANT NOTE: 
-    "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
+    "authenticateClerk" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
     Otherwise an unauthorized error will be returned.
 */
 
 
 // Create a new transaction (rent or buy)
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', authenticateClerk, async (req, res) => {
   try {
     const { item_id, transaction_type, start_date, end_date } = req.body;
     
@@ -45,7 +45,7 @@ router.post('/', authenticateToken, async (req, res) => {
 });
 
 // Get user's transactions (as buyer or seller)
-router.get('/my-transactions', authenticateToken, async (req, res) => {
+router.get('/my-transactions', authenticateClerk, async (req, res) => {
   try {
     const { rows } = await db.query(
       `SELECT t.*, 
@@ -72,7 +72,7 @@ router.get('/my-transactions', authenticateToken, async (req, res) => {
 });
 
 // Update transaction status
-router.put('/:id/status', authenticateToken, async (req, res) => {
+router.put('/:id/status', authenticateClerk, async (req, res) => {
   try {
     const { status } = req.body;
     const { rows } = await db.query(

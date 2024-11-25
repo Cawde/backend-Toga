@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateToken } = require('../middleware/auth.middleware');
+const { authenticateClerk } = require('../middleware/auth.middleware');
 const db = require('../config/database');
 
 /* IMPORTANT NOTE: 
-    "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
+    "authenticateClerk" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
     Otherwise an unauthorized error will be returned.
 */
 
 // Get user profile
-router.get('/profile', authenticateToken, async (req, res) => {
+router.get('/profile', authenticateClerk, async (req, res) => {
   try {
     const { rows } = await db.query(
       'SELECT id, email, username, full_name, profile_picture_url FROM users WHERE id = $1',
@@ -27,7 +27,7 @@ router.get('/profile', authenticateToken, async (req, res) => {
 });
 
 // Update user profile
-router.put('/profile', authenticateToken, async (req, res) => {
+router.put('/profile', authenticateClerk, async (req, res) => {
   try {
     const { full_name, profile_picture_url } = req.body;
     

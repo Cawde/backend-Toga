@@ -125,7 +125,7 @@ const createTables = async () => {
         images
       )
       SELECT 
-        (SELECT id FROM users WHERE email = 'test@example.com'),
+        (SELECT id FROM users WHERE email = 'test@lsu.edu'),
         'Blue Jeans',
         'Comfortable casual blue jeans',
         'pants',
@@ -151,7 +151,7 @@ const createTables = async () => {
         image_url
       )
       SELECT 
-        (SELECT id FROM users WHERE email = 'test@example.com'),
+        (SELECT id FROM users WHERE email = 'test@lsu.edu'),
         'Summer Fashion Show',
         'Annual summer fashion exhibition',
         CURRENT_TIMESTAMP + interval '30 days',
@@ -166,7 +166,7 @@ const createTables = async () => {
     
     // Insert sample message
     const testUserId = await db.query("SELECT id FROM users WHERE email = $1", [
-      "test@example.com",
+      "test@lsu.edu",
     ]);
     if (testUserId.rows.length > 0) {
       await db.query(

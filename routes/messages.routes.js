@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateToken } = require('../middleware/auth.middleware');
+const { authenticateClerk } = require('../middleware/auth.middleware');
 const db = require('../config/database');
 
 /* IMPORTANT NOTE: 
-    "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
+    "authenticateClerk" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
     Otherwise an unauthorized error will be returned.
 */
 
 // Send a message
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', authenticateClerk, async (req, res) => {
   try {
     const { receiver_id, content } = req.body;
     
@@ -27,7 +27,7 @@ router.post('/', authenticateToken, async (req, res) => {
 });
 
 // Get conversations list
-router.get('/conversations', authenticateToken, async (req, res) => {
+router.get('/conversations', authenticateClerk, async (req, res) => {
   try {
     const { rows } = await db.query(
       `SELECT DISTINCT 
@@ -66,7 +66,7 @@ router.get('/conversations', authenticateToken, async (req, res) => {
 });
 
 // Get conversation messages
-router.get('/:userId', authenticateToken, async (req, res) => {
+router.get('/:userId', authenticateClerk, async (req, res) => {
   try {
     const { rows } = await db.query(
       `SELECT m.*, u.username, u.profile_picture_url
@@ -88,7 +88,7 @@ router.get('/:userId', authenticateToken, async (req, res) => {
 // ============== Experimental features below =================
 
 // Mark messages as read
-router.put('/:messageId/read', authenticateToken, async (req, res) => {
+router.put('/:messageId/read', authenticateClerk, async (req, res) => {
     try {
       const { rows } = await db.query(
         `UPDATE messages 
@@ -109,7 +109,7 @@ router.put('/:messageId/read', authenticateToken, async (req, res) => {
   });
   
   // Get unread message count
-  router.get('/unread/count', authenticateToken, async (req, res) => {
+  router.get('/unread/count', authenticateClerk, async (req, res) => {
     try {
       const { rows } = await db.query(
         `SELECT COUNT(*) 
