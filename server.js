@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const { ClerkExpressRequireAuth } = require('@clerk/clerk-sdk-node');
 require("dotenv").config();
 const initializeDatabase = require("./config/dbInit");
 const authRoutes = require("./routes/auth.routes");
@@ -32,10 +31,8 @@ app.get("/", (req, res) => {
   res.send("Toga backend server is running");
 });
 
-// Use Clerk to protect following routes
-app.use(ClerkExpressRequireAuth());
-
 // Routes
+app.use("/api/auth", authRoutes);
 app.use("/api/items", itemRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);

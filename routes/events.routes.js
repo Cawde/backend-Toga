@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateClerk } = require('../middleware/auth.middleware');
+const { authenticateToken } = require('../middleware/auth.middleware');
 const db = require('../config/database');
 
 /* IMPORTANT NOTE: 
-    "authenticateClerk" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
+    "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
     Otherwise an unauthorized error will be returned.
 */
 
 
 // Create an event
-router.post('/', authenticateClerk, async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const { title, description, event_date, location, image_url } = req.body;
     
@@ -72,7 +72,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update event
-router.put('/:id', authenticateClerk, async (req, res) => {
+router.put('/:id', authenticateToken, async (req, res) => {
   try {
     const { title, description, event_date, location, image_url } = req.body;
     
@@ -100,7 +100,7 @@ router.put('/:id', authenticateClerk, async (req, res) => {
 });
 
 // Delete event
-router.delete('/:id', authenticateClerk, async (req, res) => {
+router.delete('/:id', authenticateToken, async (req, res) => {
   try {
     const { rows } = await db.query(
       'DELETE FROM events WHERE id = $1 AND creator_id = $2 RETURNING *',
