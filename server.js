@@ -13,7 +13,6 @@ const eventRoutes = require("./routes/events.routes");
 const db = require("./config/database");
 
 const app = express();
-app.use(ClerkExpressRequireAuth());
 
 app.use(
   cors({
@@ -33,8 +32,10 @@ app.get("/", (req, res) => {
   res.send("Toga backend server is running");
 });
 
+// Use Clerk to protect following routes
+app.use(ClerkExpressRequireAuth());
+
 // Routes
-app.use("/api/auth", authRoutes);
 app.use("/api/items", itemRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
