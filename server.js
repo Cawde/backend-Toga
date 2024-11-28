@@ -9,6 +9,7 @@ const userRoutes = require("./routes/users.routes");
 const transactionRoutes = require("./routes/transactions.routes");
 const messageRoutes = require("./routes/messages.routes");
 const eventRoutes = require("./routes/events.routes");
+const paymentRoutes = require('./routes/payment.routes');
 const db = require("./config/database");
 
 const app = express();
@@ -38,6 +39,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/events", eventRoutes);
+app.use("/api/payments", paymentRoutes)
 
 // Error handling
 app.use((err, req, res, next) => {
