@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
   try {
     const { page = 1, limit = 10, category, size, organization, user } = req.query;
     const offset = (page - 1) * limit;
-    
+
     let query = 'SELECT * FROM clothing_items ci';
     const queryParams = [];
 
@@ -27,12 +27,12 @@ router.get('/', async (req, res) => {
     } else {
       query += ' WHERE 1=1'; // Default WHERE clause when no filters are applied
     }
-    
+
     if (category) {
       queryParams.push(category);
       query += ` AND ci.category = $${queryParams.length}`;
     }
-    
+
     if (size) {
       queryParams.push(size);
       query += ` AND ci.size = $${queryParams.length}`;
@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
       queryParams.push(user);
       query += ` AND ci.owner_id = $${queryParams.length}`;
     }
-    
+
     queryParams.push(limit, offset);
     query += ` LIMIT $${queryParams.length - 1} OFFSET $${queryParams.length}`;
 
@@ -52,6 +52,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 router.post('/', authenticateToken, async (req, res) => {
   try {
