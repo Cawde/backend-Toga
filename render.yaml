@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: toga-backend
+    name: backend-Toga
     env: node
     buildCommand: npm install
     startCommand: npm start
