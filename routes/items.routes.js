@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
       // Takes a user ID and sends back all items from that Organization
       query += ' JOIN members m ON ci.owner_id = m.user_id';
       query += ' JOIN users u ON m.user_id = u.id';
-      queryParams.push(user);
+      queryParams.push(organization);
       query += ` WHERE m.organization_id = (SELECT organization_id FROM members WHERE user_id = $${queryParams.length})`;
     } else {
       query += ' WHERE 1=1'; // Default WHERE clause when no filters are applied
