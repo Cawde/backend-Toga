@@ -1,0 +1,96 @@
+{
+    "user": {
+        "id": "7e746d2a-e679-4b52-ab95-e9184f30c5fb",
+        "email": "john.doe@lsu.edu",
+        "username": "johndoe",
+        "full_name": "John Doe"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdlNzQ2ZDJhLWU2NzktNGI1Mi1hYjk1LWU5MTg0ZjMwYzVmYiIsImVtYWlsIjoiam9obi5kb2VAbHN1LmVkdSIsImlhdCI6MTczMjc0ODk4NCwiZXhwIjoxNzMyODM1Mzg0fQ.LfyOws49AGvY53arl7_Tn59gjzzOJ5o7Ito-lVwTB3U"
+}
+{
+    "user": {
+        "id": "7ac61dda-1244-460a-a2a3-a752e6805706",
+        "email": "jane.smith@lsu.edu",
+        "username": "janesmith",
+        "full_name": "Jane Smith"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdhYzYxZGRhLTEyNDQtNDYwYS1hMmEzLWE3NTJlNjgwNTcwNiIsImVtYWlsIjoiamFuZS5zbWl0aEBsc3UuZWR1IiwiaWF0IjoxNzMyNzQ5MDM0LCJleHAiOjE3MzI4MzU0MzR9.6SXlPgjhdqwkRXxpmLzQrrWrAy2HfQLNbu41c32NT7A"
+}
+{
+    "user": {
+        "id": "e1014614-c38e-4f33-940e-ade07526684d",
+        "email": "alex.jones@lsu.edu",
+        "username": "alexjones",
+        "full_name": "Alex Jones"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxMDE0NjE0LWMzOGUtNGYzMy05NDBlLWFkZTA3NTI2Njg0ZCIsImVtYWlsIjoiYWxleC5qb25lc0Bsc3UuZWR1IiwiaWF0IjoxNzMyNzQ5MDUyLCJleHAiOjE3MzI4MzU0NTJ9.tch1KiIlR-jYnueiFb63jcITU6IWhv6FjHpNYLeCLVU"
+}
+{
+    "user": {
+        "id": "148d4636-49ff-40fd-ac47-22aa2ff9e441",
+        "email": "emily.davis@lsu.edu",
+        "username": "emilydavis",
+        "full_name": "Emily Davis"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE0OGQ0NjM2LTQ5ZmYtNDBmZC1hYzQ3LTIyYWEyZmY5ZTQ0MSIsImVtYWlsIjoiZW1pbHkuZGF2aXNAbHN1LmVkdSIsImlhdCI6MTczMjc0OTA2NSwiZXhwIjoxNzMyODM1NDY1fQ.nG-UC2HbyXKlyr_26Y5InVYUSE1Suxdghm7iHs6lPQk"
+}
+
+{
+    "user": {
+        "id": "4f97fd1d-8a38-49f5-82a0-ca63f95340e6",
+        "email": "michael.brown@lsu.edu",
+        "username": "michaelbrown",
+        "full_name": "Michael Brown"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRmOTdmZDFkLThhMzgtNDlmNS04MmEwLWNhNjNmOTUzNDBlNiIsImVtYWlsIjoibWljaGFlbC5icm93bkBsc3UuZWR1IiwiaWF0IjoxNzMyNzQ5MDgzLCJleHAiOjE3MzI4MzU0ODN9.h_tm9kaVlqdg8t1Df-N-DbQMHcgoN94_zAEmdF8snhs"
+}
+
+{
+    "user": {
+        "id": "02cb923d-6136-4459-8bf9-b850e4672653",
+        "email": "sarah.johnson@lsu.edu",
+        "username": "sarahjohnson",
+        "full_name": "Sarah Johnson"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAyY2I5MjNkLTYxMzYtNDQ1OS04YmY5LWI4NTBlNDY3MjY1MyIsImVtYWlsIjoic2FyYWguam9obnNvbkBsc3UuZWR1IiwiaWF0IjoxNzMyNzQ5MDk2LCJleHAiOjE3MzI4MzU0OTZ9.1ll1JLSz_zzWXSek4f0Ux1Hs96-DIHIJTIp65b0J9EQ"
+}
+
+{
+    "user": {
+        "id": "b19e11f3-ba7b-49a6-b33c-9127afa40feb",
+        "email": "david.clark@lsu.edu",
+        "username": "davidclark",
+        "full_name": "David Clark"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIxOWUxMWYzLWJhN2ItNDlhNi1iMzNjLTkxMjdhZmE0MGZlYiIsImVtYWlsIjoiZGF2aWQuY2xhcmtAbHN1LmVkdSIsImlhdCI6MTczMjc0OTExNiwiZXhwIjoxNzMyODM1NTE2fQ.fJA9u-BQMKKnLZL5zOFTgJxiWW1odCwEDfuo91RDbxU"
+}
+
+{
+    "user": {
+        "id": "800c57c5-6cef-4eee-8821-8c65ede6f53e",
+        "email": "olivia.martin@lsu.edu",
+        "username": "oliviamartin",
+        "full_name": "Olivia Martin"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgwMGM1N2M1LTZjZWYtNGVlZS04ODIxLThjNjVlZGU2ZjUzZSIsImVtYWlsIjoib2xpdmlhLm1hcnRpbkBsc3UuZWR1IiwiaWF0IjoxNzMyNzQ5MTM1LCJleHAiOjE3MzI4MzU1MzV9.hT40NL5ksqs3ji9b6vPVQ0T_aWCrN0H7Q0mBA14hHWE"
+}
+
+{
+    "user": {
+        "id": "c8b8d9de-7cbf-4640-90e8-7d41284f279d",
+        "email": "liam.thompson@lsu.edu",
+        "username": "liamthompson",
+        "full_name": "Liam Thompson"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM4YjhkOWRlLTdjYmYtNDY0MC05MGU4LTdkNDEyODRmMjc5ZCIsImVtYWlsIjoibGlhbS50aG9tcHNvbkBsc3UuZWR1IiwiaWF0IjoxNzMyNzQ5MTUzLCJleHAiOjE3MzI4MzU1NTN9.HgjQR8FHliFQhz164LiRhcydyUd103MFSD1LV1-tZKk"
+}
+
+{
+    "user": {
+        "id": "65e29d4f-8edf-489a-9e9d-818bb61d7a85",
+        "email": "emma.white@lsu.edu",
+        "username": "emmawhite",
+        "full_name": "Emma White"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTI5ZDRmLThlZGYtNDg5YS05ZTlkLTgxOGJiNjFkN2E4NSIsImVtYWlsIjoiZW1tYS53aGl0ZUBsc3UuZWR1IiwiaWF0IjoxNzMyNzQ5MTY4LCJleHAiOjE3MzI4MzU1Njh9.02areiSqmgI1C_MZKqjc1wMOjTTPzxqJloajOM3hmxQ"
+}

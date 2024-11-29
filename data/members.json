@@ -1,0 +1,42 @@
+[
+  {
+    "username": "johndoe",
+    "orgname": "Alpha Phi Alpha"
+  },
+  {
+    "username": "janesmith",
+    "orgname": "Delta Sigma Theta"
+  },
+  {
+    "username": "alexjones",
+    "orgname": "Kappa Alpha Psi"
+  },
+  {
+    "username": "emilydavis",
+    "orgname": "Sigma Gamma Rho"
+  },
+  {
+    "username": "michaelbrown",
+    "orgname": "Sigma Gamma Rho"
+  },
+  {
+    "username": "sarahjohnson",
+    "orgname": "Delta Sigma Theta"
+  },
+  {
+    "username": "davidclark",
+    "orgname": "Sigma Gamma Rho"
+  },
+  {
+    "username": "oliviamartin",
+    "orgname": "Delta Sigma Theta"
+  },
+  {
+    "username": "liamthompson",
+    "orgname": "Sigma Gamma Rho"
+  },
+  {
+    "username": "emmawhite",
+    "orgname": "Alpha Phi Alpha"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "email": "john.doe@lsu.edu",
+    "username": "johndoe",
+    "full_name": "John Doe",
+    "password": "password123"
+  },
+  {
+    "email": "jane.smith@lsu.edu",
+    "username": "janesmith",
+    "full_name": "Jane Smith",
+    "password": "securepass"
+  },
+  {
+    "email": "alex.jones@lsu.edu",
+    "username": "alexjones",
+    "full_name": "Alex Jones",
+    "password": "alex2024"
+  },
+  {
+    "email": "emily.davis@lsu.edu",
+    "username": "emilydavis",
+    "full_name": "Emily Davis",
+    "password": "emilyrocks"
+  },
+  {
+    "email": "michael.brown@lsu.edu",
+    "username": "michaelbrown",
+    "full_name": "Michael Brown",
+    "password": "mikebrown"
+  },
+  {
+    "email": "sarah.johnson@lsu.edu",
+    "username": "sarahjohnson",
+    "full_name": "Sarah Johnson",
+    "password": "sarah123"
+  },
+  {
+    "email": "david.clark@lsu.edu",
+    "username": "davidclark",
+    "full_name": "David Clark",
+    "password": "davidpass"
+  },
+  {
+    "email": "olivia.martin@lsu.edu",
+    "username": "oliviamartin",
+    "full_name": "Olivia Martin",
+    "password": "olivia2024"
+  },
+  {
+    "email": "liam.thompson@lsu.edu",
+    "username": "liamthompson",
+    "full_name": "Liam Thompson",
+    "password": "liampass"
+  },
+  {
+    "email": "emma.white@lsu.edu",
+    "username": "emmawhite",
+    "full_name": "Emma White",
+    "password": "emma1234"
+  }
+]

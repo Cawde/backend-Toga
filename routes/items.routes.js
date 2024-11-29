@@ -12,20 +12,35 @@ const db = require('../config/database');
 // Get all items with pagination and filters
 router.get('/', async (req, res) => {
   try {
-    const { page = 1, limit = 10, category, size } = req.query;
+    const { page = 1, limit = 10, category, size, organization, user } = req.query;
     const offset = (page - 1) * limit;
     
-    let query = 'SELECT * FROM clothing_items WHERE 1=1';
+    let query = 'SELECT * FROM clothing_items ci';
     const queryParams = [];
+
+    if (organization) {
+      // Takes a user ID and sends back all items from that Organization
+      query += ' JOIN members m ON ci.owner_id = m.user_id';
+      query += ' JOIN users u ON m.user_id = u.id';
+      queryParams.push(user);
+      query += ` WHERE m.organization_id = (SELECT organization_id FROM members WHERE user_id = $${queryParams.length})`;
+    } else {
+      query += ' WHERE 1=1'; // Default WHERE clause when no filters are applied
+    }
     
     if (category) {
       queryParams.push(category);
-      query += ` AND category = $${queryParams.length}`;
+      query += ` AND ci.category = $${queryParams.length}`;
     }
     
     if (size) {
       queryParams.push(size);
-      query += ` AND size = $${queryParams.length}`;
+      query += ` AND ci.size = $${queryParams.length}`;
+    }
+
+    if (user) {
+      queryParams.push(user);
+      query += ` AND ci.owner_id = $${queryParams.length}`;
     }
     
     queryParams.push(limit, offset);

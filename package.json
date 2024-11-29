@@ -1,5 +1,5 @@
 {
-  "name": "backend-toga",
+  "name": "togabackend",
   "version": "1.0.0",
   "description": "Backend server for Toga clothing rental and buying application",
   "main": "server.js",
@@ -16,7 +16,7 @@
     "ecommerce",
     "backend"
   ],
-  "author": "",
+  "author": "Brandon",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -36,5 +36,13 @@
   },
   "engines": {
     "node": ">=14.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cawde/backend-Toga.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Cawde/backend-Toga/issues"
+  },
+  "homepage": "https://github.com/Cawde/backend-Toga#readme"
 }
