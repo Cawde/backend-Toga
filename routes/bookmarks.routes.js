@@ -11,6 +11,7 @@ const db = require('../config/database');
 
 router.get('/', async (req, res) => {
     try {
+        const { user } = req.query;
         const { rows } = await db.query(
             `
                 SELECT 
@@ -34,7 +35,7 @@ router.get('/', async (req, res) => {
                     clothing_items c ON b.clothing_id = c.id
                 WHERE 
                     b.user_id = $1`,
-            [req.params.id]
+            [user]
         );
         res.json(rows);
     } catch (error) {
