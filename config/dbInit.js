@@ -12,15 +12,14 @@ const createTables = async () => {
     console.log("UUID extension enabled");
 
     try {
+      await db.query(`DROP TABLE IF EXISTS users CASCADE;`);
       await db.query(`DROP TABLE IF EXISTS clothing_items CASCADE;`);
       await db.query(`DROP TABLE IF EXISTS events CASCADE;`);
       await db.query(`DROP TABLE IF EXISTS members CASCADE;`);
       await db.query(`DROP TABLE IF EXISTS messages CASCADE;`);
       await db.query(`DROP TABLE IF EXISTS organizations CASCADE;`);
       await db.query(`DROP TABLE IF EXISTS transactions CASCADE;`);
-      await db.query(`DROP TABLE IF EXISTS users CASCADE;`);
     } catch (e) {
-  
       console.log("No existing type to drop");
     }
 
@@ -34,7 +33,7 @@ const createTables = async () => {
         profile_picture_url VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      ) ON CONFLICT DO NOTHING
+      )
     `);
     console.log("Users table created successfully");
 
