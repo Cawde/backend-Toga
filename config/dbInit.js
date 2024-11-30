@@ -34,7 +34,7 @@ const createTables = async () => {
         profile_picture_url VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
+      ) ON CONFLICT DO NOTHING
     `);
     console.log("Users table created successfully");
 
