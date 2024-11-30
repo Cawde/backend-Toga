@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
                 JOIN 
                     clothing_items c ON b.clothing_id = c.id
                 WHERE 
-                    b.user_id = $1;`,
+                    b.user_id = $1`,
             [user]
         );
         res.json(rows);
@@ -50,7 +50,22 @@ router.post('/add', async (req, res) => {
         const { rows } = await db.query(
             `
                INSERT INTO bookmarks (user_id, clothing_id)
-                VALUES ($1, $2);`,[user, clothing_item]
+                VALUES ($1, $2)`,[user, clothing_item]
+        );
+        res.json(rows);
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ error: 'Internal server error during login' });
+    }
+});
+
+router.post('/remove', async (req, res) => {
+    try {
+        const { user, clothing_item } = req.body;
+        const { rows } = await db.query(
+            `
+               DELETE FROM bookmarks
+               WHERE user_id = $1 AND clothing_id = $2`,[user, clothing_item]
         );
         res.json(rows);
     } catch (error) {
