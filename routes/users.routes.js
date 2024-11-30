@@ -12,7 +12,25 @@ const db = require('../config/database');
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
     const { rows } = await db.query(
-      'SELECT id, email, username, full_name, profile_picture_url FROM users WHERE id = $1',
+      `  SELECT 
+      u.id,
+      u.email,
+      u.username,
+      u.full_name,
+      u.profile_picture_url,
+      u.created_at,
+      u.updated_at,
+      COALESCE(json_agg(o.name) FILTER (WHERE o.name IS NOT NULL), '[]') AS organization_names
+  FROM 
+      users u
+  LEFT JOIN 
+      members m ON u.id = m.user_id
+  LEFT JOIN 
+      organizations o ON m.organization_id = o.id
+  WHERE 
+      u.id = $1
+  GROUP BY 
+      u.id;`,
       [req.user.id]
     );
     
