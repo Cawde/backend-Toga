@@ -12,7 +12,6 @@ const createTables = async () => {
     console.log("UUID extension enabled");
 
     try {
-      await db.query(`DROP TABLE IF EXISTS users CASCADE;`);
       await db.query(`DROP TABLE IF EXISTS clothing_items CASCADE;`);
       await db.query(`DROP TABLE IF EXISTS events CASCADE;`);
       await db.query(`DROP TABLE IF EXISTS members CASCADE;`);
