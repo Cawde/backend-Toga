@@ -15,7 +15,20 @@ router.get('/', async (req, res) => {
     const { page = 1, limit = 10, category, size, organization, user } = req.query;
     const offset = (page - 1) * limit;
 
-    let query = 'SELECT * FROM clothing_items ci';
+    let query = `SELECT ci.id,
+    ci.owner_id,
+    ci.title,
+    ci.description,
+    ci.category,
+    ci.size,
+    ci.condition,
+    ci.purchase_price,
+    ci.rental_price,
+    ci.is_available_for_rent,
+    ci.is_available_for_sale,
+    ci.images,
+    ci.created_at,
+    ci.updated_at FROM clothing_items ci`;
     const queryParams = [];
 
     if (organization) {
