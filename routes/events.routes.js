@@ -44,15 +44,20 @@ router.get('/', async (req, res) => {
     e.location,
     e.image_url,
     e.created_at,
-    e.updated_at
+    e.updated_at,
+    o.name AS organizer_name
 FROM 
     events e
 JOIN 
     members m
 ON 
     e.creator_id = m.organization_id
+JOIN 
+    organizations o
+ON 
+    e.creator_id = o.id
 WHERE 
-    m.user_id = $1;`,
+    m.user_id = :user_id;`,
       [organization]
     );
     
