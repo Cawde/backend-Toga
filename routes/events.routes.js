@@ -43,8 +43,6 @@ router.get('/', async (req, res) => {
     e.event_date + INTERVAL '3 days' AS event_end,
     e.location,
     e.image_url,
-    e.created_at,
-    e.updated_at,
     o.name AS organizer_name
 FROM 
     events e
@@ -57,7 +55,7 @@ JOIN
 ON 
     e.creator_id = o.id
 WHERE 
-    m.user_id = :user_id;`,
+    m.user_id = $1;`,
       [organization]
     );
     
