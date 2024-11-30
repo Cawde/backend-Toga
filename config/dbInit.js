@@ -6,7 +6,6 @@ const fs = require('fs');
 */
 const createTables = async () => {
   try {
-    // Enable UUID extension
     await db.query(`
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
     `);
@@ -25,7 +24,6 @@ const createTables = async () => {
       console.log("No existing type to drop");
     }
 
-    // Create users table
     await db.query(`
       CREATE TABLE IF NOT EXISTS users (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -40,7 +38,16 @@ const createTables = async () => {
     `);
     console.log("Users table created successfully");
 
-    // Create clothing items table
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS bookmarks (
+          id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+          user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+          clothing_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log("Bookmarks table created successfully");
+
     await db.query(`
       CREATE TABLE IF NOT EXISTS clothing_items (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -61,7 +68,6 @@ const createTables = async () => {
     `);
     console.log("Clothing items table created successfully");
 
-    // Create transactions table
     await db.query(`
       CREATE TABLE IF NOT EXISTS transactions (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -79,7 +85,6 @@ const createTables = async () => {
     `);
     console.log("Transactions table created successfully");
 
-    // Create messages table
     await db.query(`
       CREATE TABLE IF NOT EXISTS messages (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
