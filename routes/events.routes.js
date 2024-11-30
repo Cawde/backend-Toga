@@ -31,17 +31,29 @@ router.post('/', authenticateToken, async (req, res) => {
 // Get all events
 router.get('/', async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10,  organization} = req.query;
     const offset = (page - 1) * limit;
     
     const { rows } = await db.query(
-      `SELECT e.*, u.username as creator_name
-       FROM events e
-       JOIN users u ON e.creator_id = u.id
-       WHERE event_date >= CURRENT_DATE
-       ORDER BY event_date ASC
-       LIMIT $1 OFFSET $2`,
-      [limit, offset]
+      `SELECT 
+    e.id AS event_id,
+    e.title,
+    e.description,
+    e.event_date AS event_begin,
+    e.event_date + INTERVAL '3 days' AS event_end,
+    e.location,
+    e.image_url,
+    e.created_at,
+    e.updated_at
+FROM 
+    events e
+JOIN 
+    members m
+ON 
+    e.creator_id = m.organization_id
+WHERE 
+    m.user_id = $1;`,
+      [organization]
     );
     
     res.json(rows);
