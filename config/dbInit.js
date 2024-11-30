@@ -11,16 +11,22 @@ const createTables = async () => {
     `);
     console.log("UUID extension enabled");
 
-    try {
-      await db.query(`DROP TABLE IF EXISTS clothing_items CASCADE;`);
-      await db.query(`DROP TABLE IF EXISTS events CASCADE;`);
-      await db.query(`DROP TABLE IF EXISTS members CASCADE;`);
-      await db.query(`DROP TABLE IF EXISTS messages CASCADE;`);
-      await db.query(`DROP TABLE IF EXISTS organizations CASCADE;`);
-      await db.query(`DROP TABLE IF EXISTS transactions CASCADE;`);
-    } catch (e) {
-      console.log("No existing type to drop");
-    }
+    await db.query(`DROP TABLE IF EXISTS clothing_items CASCADE;`);
+    await db.query(`DROP TABLE IF EXISTS users CASCADE;`);
+    await db.query(`DROP TABLE IF EXISTS bookmarks CASCADE;`);
+    await db.query(`DROP TABLE IF EXISTS events CASCADE;`);
+    await db.query(`DROP TABLE IF EXISTS members CASCADE;`);
+    await db.query(`DROP TABLE IF EXISTS messages CASCADE;`);
+    await db.query(`DROP TABLE IF EXISTS organizations CASCADE;`);
+    await db.query(`DROP TABLE IF EXISTS transactions CASCADE;`);
+    await db.query(`DROP TYPE IF EXISTS clothing_items CASCADE;`);
+    await db.query(`DROP TYPE IF EXISTS events CASCADE;`);
+    await db.query(`DROP TYPE IF EXISTS members CASCADE;`);
+    await db.query(`DROP TYPE IF EXISTS messages CASCADE;`);
+    await db.query(`DROP TYPE IF EXISTS organizations CASCADE;`);
+    await db.query(`DROP TYPE IF EXISTS transactions CASCADE;`);
+    await db.query(`DROP TYPE IF EXISTS users CASCADE;`);
+    await db.query(`DROP TYPE IF EXISTS bookmarks CASCADE;`);
 
     await db.query(`
       CREATE TABLE IF NOT EXISTS users (
