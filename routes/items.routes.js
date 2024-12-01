@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { authenticateToken } = require('../middleware/auth.middleware');
 const db = require('../config/database');
+const {upload} = require("../middleware/upload");
 
 /* IMPORTANT NOTE: 
     "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
@@ -81,7 +82,7 @@ router.get('/', async (req, res) => {
 });
 
 
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', authenticateToken, upload.single('image'), async (req, res) => {
   try {
     const {
       title,
@@ -91,8 +92,9 @@ router.post('/', authenticateToken, async (req, res) => {
       condition,
       purchase_price,
       rental_price,
-      images
     } = req.body;
+
+    const imageUrl = req.file.location;
 
     const { rows } = await db.query(
       `INSERT INTO clothing_items 
@@ -101,7 +103,7 @@ router.post('/', authenticateToken, async (req, res) => {
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING *`,
       [req.user.id, title, description, category, size, condition,
-       purchase_price, rental_price, images]
+       purchase_price, rental_price, [imageUrl]]
     );
 
     res.status(201).json(rows[0]);
