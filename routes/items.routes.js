@@ -112,36 +112,38 @@ router.post('/', authenticateToken, upload.single('image'), async (req, res) => 
       rental_price,
     } = req.body;
 
-    // Generate a file object for the base64 image
-    const file = {
-      originalname: 'image.jpg', // Use a default name for the file
-      mimetype: 'image/jpeg', // Set the correct MIME type for JPG
-      buffer: buffer, // Attach the buffer
-    };
+    // Check if file exists and process it
+    if (!req.file) {
+      return res.status(400).json({ error: "Image is required" });
+    }
 
-    // Upload the buffer to S3
+    const file = req.file;  // Get the file uploaded by multer
+    console.log("File received: ", file);
+
+    // Upload the file to S3
     const s3Response = await s3.upload({
       Bucket: process.env.BUCKET_NAME,
-      Key: `images/${Date.now()}_image.jpg`, // Generate unique key for S3
+      Key: `images/${Date.now()}_${file.originalname}`,  // Use original file name or generate a unique one
       Body: file.buffer,
       ContentType: file.mimetype,
       ACL: 'public-read',
     }).promise();
 
-    const imageUrl = s3Response.Location; // URL to the uploaded image
+    const imageUrl = s3Response.Location;  // Get the S3 URL of the uploaded image
 
     const { rows } = await db.query(
-      `INSERT INTO clothing_items 
+        `INSERT INTO clothing_items 
        (owner_id, title, description, category, size, condition, 
         purchase_price, rental_price, images)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING *`,
-      [req.user.id, title, description, category, size, condition,
-       purchase_price, rental_price, [imageUrl]]
+        [req.user.id, title, description, category, size, condition,
+          purchase_price, rental_price, [imageUrl]]
     );
 
-    res.status(201).json(rows[0]);
+    res.status(201).json(rows[0]);  // Return the created item
   } catch (error) {
+    console.error("Error during image upload:", error);
     res.status(500).json({ error: error.message });
   }
 });
