@@ -112,9 +112,23 @@ router.post('/', authenticateToken, upload.single('image'), async (req, res) => 
       rental_price,
     } = req.body;
 
-    console.log(req.body);
-    console.log(req.file.location);
-    const imageUrl = req.file.location;
+    // Generate a file object for the base64 image
+    const file = {
+      originalname: 'image.jpg', // Use a default name for the file
+      mimetype: 'image/jpeg', // Set the correct MIME type for JPG
+      buffer: buffer, // Attach the buffer
+    };
+
+    // Upload the buffer to S3
+    const s3Response = await s3.upload({
+      Bucket: process.env.BUCKET_NAME,
+      Key: `images/${Date.now()}_image.jpg`, // Generate unique key for S3
+      Body: file.buffer,
+      ContentType: file.mimetype,
+      ACL: 'public-read',
+    }).promise();
+
+    const imageUrl = s3Response.Location; // URL to the uploaded image
 
     const { rows } = await db.query(
       `INSERT INTO clothing_items 
