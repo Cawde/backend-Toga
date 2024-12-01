@@ -55,11 +55,10 @@ router.get('/', async (req, res) => {
       )`;
     } else {
       query += ' WHERE 1=1'; // Default WHERE clause
-    }
-
-    if (user) {
-      queryParams.push(user);
-      query += ` AND ci.owner_id = $${queryParams.length}`;
+      if (user) {
+        queryParams.push(user);
+        query += ` AND ci.owner_id = $${queryParams.length}`;
+      }
     }
 
     if (category) {
