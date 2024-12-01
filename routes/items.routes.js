@@ -5,9 +5,10 @@ const db = require('../config/database');
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 const { Upload } = require("@aws-sdk/lib-storage");
 import multer, {memoryStorage} from "multer";
+import dotenv from "dotenv";
 
-const storage = memoryStorage()
-const upload = multer({storage})
+const storage = memoryStorage();
+const upload = multer({storage});
 
 /* IMPORTANT NOTE: 
     "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
