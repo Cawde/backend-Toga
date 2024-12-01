@@ -15,34 +15,46 @@ router.get('/', async (req, res) => {
     const { page = 1, limit = 10, category, size, organization, user } = req.query;
     const offset = (page - 1) * limit;
 
-    let query = `SELECT ci.id,
-    ci.owner_id,
-    ci.title,
-    ci.description,
-    ci.category,
-    ci.size,
-    ci.condition,
-    ci.purchase_price,
-    ci.rental_price,
-    ci.is_available_for_rent,
-    ci.is_available_for_sale,
-    ci.images,
-    ci.created_at,
-    CASE 
-        WHEN b.id IS NOT NULL THEN true 
-        ELSE false 
-    END AS is_bookmarked
-    ci.updated_at FROM clothing_items ci`;
+    let query = `
+      SELECT 
+        ci.id,
+        ci.owner_id,
+        ci.title,
+        ci.description,
+        ci.category,
+        ci.size,
+        ci.condition,
+        ci.purchase_price,
+        ci.rental_price,
+        ci.is_available_for_rent,
+        ci.is_available_for_sale,
+        ci.images,
+        ci.created_at,
+        ci.updated_at,
+        CASE 
+          WHEN b.id IS NOT NULL THEN true 
+          ELSE false 
+        END AS is_bookmarked
+      FROM clothing_items ci
+      LEFT JOIN bookmarks b 
+      ON ci.id = b.clothing_id AND b.user_id = $${queryParams.length + 1}
+    `;
+
     const queryParams = [];
 
     if (organization) {
-      // Takes a user ID and sends back all items from that Organization
-      query += ' JOIN members m ON ci.owner_id = m.user_id';
-      query += ' JOIN users u ON m.user_id = u.id';
+      query += `
+        JOIN members m ON ci.owner_id = m.user_id
+        JOIN users u ON m.user_id = u.id
+      `;
       queryParams.push(organization);
-      query += ` WHERE m.organization_id = (SELECT organization_id FROM members WHERE user_id = $${queryParams.length})`;
+      query += ` WHERE m.organization_id = (
+        SELECT organization_id 
+        FROM members 
+        WHERE user_id = $${queryParams.length}
+      )`;
     } else {
-      query += ' WHERE 1=1'; // Default WHERE clause when no filters are applied
+      query += ' WHERE 1=1'; // Default WHERE clause
     }
 
     if (category) {
@@ -60,19 +72,7 @@ router.get('/', async (req, res) => {
       query += ` AND ci.owner_id = $${queryParams.length}`;
     }
 
-    if (organization) {
-      query += `
-      LEFT JOIN bookmarks b 
-      ON ci.id = b.clothing_id AND b.user_id = $${queryParams.length}
-    `;
-      queryParams.push(organization);
-    } else if (user) {
-      query += `
-      LEFT JOIN bookmarks b 
-      ON ci.id = b.clothing_id AND b.user_id = $${queryParams.length}
-    `;
-      queryParams.push(user);
-    }
+    queryParams.push(user || organization); // For bookmark user_id in the LEFT JOIN
 
     queryParams.push(limit, offset);
     query += ` LIMIT $${queryParams.length - 1} OFFSET $${queryParams.length}`;
