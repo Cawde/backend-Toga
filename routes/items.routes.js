@@ -56,6 +56,20 @@ router.get('/', async (req, res) => {
       query += ` AND ci.owner_id = $${queryParams.length}`;
     }
 
+    if (organization) {
+      query += `
+      LEFT JOIN bookmarks b 
+      ON ci.id = b.clothing_id AND b.user_id = $${queryParams.length}
+    `;
+      queryParams.push(organization);
+    } else if (user) {
+      query += `
+      LEFT JOIN bookmarks b 
+      ON ci.id = b.clothing_id AND b.user_id = $${queryParams.length}
+    `;
+      queryParams.push(user);
+    }
+
     queryParams.push(limit, offset);
     query += ` LIMIT $${queryParams.length - 1} OFFSET $${queryParams.length}`;
 
