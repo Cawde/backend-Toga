@@ -28,6 +28,10 @@ router.get('/', async (req, res) => {
     ci.is_available_for_sale,
     ci.images,
     ci.created_at,
+    CASE 
+        WHEN b.id IS NOT NULL THEN true 
+        ELSE false 
+    END AS is_bookmarked
     ci.updated_at FROM clothing_items ci`;
     const queryParams = [];
 
