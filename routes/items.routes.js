@@ -57,6 +57,11 @@ router.get('/', async (req, res) => {
       query += ' WHERE 1=1'; // Default WHERE clause
     }
 
+    if (user) {
+      queryParams.push(user);
+      query += ` AND ci.owner_id = $${queryParams.length}`;
+    }
+
     if (category) {
       queryParams.push(category);
       query += ` AND ci.category = $${queryParams.length}`;
@@ -66,13 +71,6 @@ router.get('/', async (req, res) => {
       queryParams.push(size);
       query += ` AND ci.size = $${queryParams.length}`;
     }
-
-    if (user) {
-      queryParams.push(user);
-      query += ` AND ci.owner_id = $${queryParams.length}`;
-    }
-
-    queryParams.push(user || organization); // For bookmark user_id in the LEFT JOIN
 
     queryParams.push(limit, offset);
     query += ` LIMIT $${queryParams.length - 1} OFFSET $${queryParams.length}`;
