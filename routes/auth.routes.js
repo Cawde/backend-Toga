@@ -69,28 +69,49 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    const { rows } = await db.query(
+    // get the user
+    const userResult = await db.query(
       'SELECT * FROM users WHERE email = $1',
       [email]
     );
 
-    if (rows.length === 0) {
+    if (userResult.rows.length === 0) {
       return res.status(400).json({ error: 'User not found' });
     }
 
-    const validPassword = await bcrypt.compare(password, rows[0].password_hash);
+    const validPassword = await bcrypt.compare(password, userResult.rows[0].password_hash);
     if (!validPassword) {
       return res.status(400).json({ error: 'Invalid password' });
     }
 
+    // Get organization information through members table
+    const orgResult = await db.query(`
+      SELECT o.id as organization_id, o.name as organization_name 
+      FROM organizations o
+      JOIN members m ON o.id = m.organization_id
+      WHERE m.user_id = $1
+    `, [userResult.rows[0].id]);
+
+    const { password_hash, ...user } = userResult.rows[0];
+
+    // Add organization info to user object
+    user.organization = orgResult.rows[0] || null;
+
     const token = jwt.sign(
-      { id: rows[0].id, email: rows[0].email },
+      { 
+        id: user.id, 
+        email: user.email,
+        organization_id: user.organization?.organization_id 
+      },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 
-    const { password_hash, ...user } = rows[0];
-    res.json({ user, token });
+    res.json({ 
+      user, 
+      token,
+    });
+
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Internal server error during login' });
