@@ -2,33 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { authenticateToken } = require('../middleware/auth.middleware');
 const db = require('../config/database');
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-const { Upload } = require("@aws-sdk/lib-storage");
-import multer, {memoryStorage} from "multer";
-import dotenv from "dotenv";
-
-const storage = memoryStorage();
-const upload = multer({storage});
 
 /* IMPORTANT NOTE: 
     "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
     Otherwise an unauthorized error will be returned.
 */
-
-dotenv.config();
-
-const bucket = process.env.BUCKET_NAME;
-const region = process.env.BUCKET_REGION;
-const access_key = process.env.ACCESS_KEY;
-const secret_key = process.env.SECRET_ACCESS_KEY;
-
-const s3 = new S3Client({
-  credentials: {
-    accessKeyId: access_key,
-    secretAccessKey: secret_key,
-  },
-  region: region
-})
 
 
 // Get all items with pagination and filters
@@ -103,9 +81,7 @@ router.get('/', async (req, res) => {
 });
 
 
-router.post('/', upload.single('image'), authenticateToken, async (req, res) => {
-  const { file } = req;
-  console.log(file);
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const {
       title,
