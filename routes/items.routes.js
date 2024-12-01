@@ -22,7 +22,7 @@ const upload = multer({
     bucket: process.env.BUCKET_NAME,
     acl: 'public-read',
     key: (req, file, cb) => {
-      cb(null, `uploads/${Date.now()}_${file.originalname}`);
+      cb(null, `images/${Date.now()}_${file.originalname}`);
     },
   }),
 });
@@ -112,6 +112,8 @@ router.post('/', authenticateToken, upload.single('image'), async (req, res) => 
       rental_price,
     } = req.body;
 
+    console.log(req.body);
+    console.log(req.file.location);
     const imageUrl = req.file.location;
 
     const { rows } = await db.query(
