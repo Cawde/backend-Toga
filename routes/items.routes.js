@@ -2,12 +2,30 @@ const express = require('express');
 const router = express.Router();
 const { authenticateToken } = require('../middleware/auth.middleware');
 const db = require('../config/database');
-const {upload} = require("../middleware/upload");
-
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+const AWS = require('aws-sdk');
 /* IMPORTANT NOTE: 
     "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
     Otherwise an unauthorized error will be returned.
 */
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.ACCESS_KEY,
+  secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  region: process.env.BUCKET_REGION,
+});
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.BUCKET_NAME,
+    acl: 'public-read',
+    key: (req, file, cb) => {
+      cb(null, `uploads/${Date.now()}_${file.originalname}`);
+    },
+  }),
+});
 
 
 // Get all items with pagination and filters
