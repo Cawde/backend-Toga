@@ -28,11 +28,75 @@ router.post('/', authenticateToken, async (req, res) => {
   }
 });
 
+
+router.get('/clothes', async (req, res) => {
+  try {
+    const { event } = req.query;
+    const { rows } = await db.query(
+        `
+                SELECT 
+                    c.id AS clothing_id,
+                    c.owner_id,
+                    c.title,
+                    c.description,
+                    c.category,
+                    c.size,
+                    c.condition,
+                    c.purchase_price,
+                    c.rental_price,
+                    c.is_available_for_rent,
+                    c.is_available_for_sale,
+                    c.images,
+                    c.created_at,
+                    c.updated_at
+                FROM 
+                    event_Listings e
+                JOIN 
+                    clothing_items c ON e.clothing_id = c.id
+                WHERE 
+                    e.event_id = $1`,
+        [event]
+    );
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post('/clothes/add', async (req, res) => {
+  try {
+    const { clothing_item, event } = req.body;
+    const { rows } = await db.query(
+        `
+               INSERT INTO event_listings (event_id, clothing_id)
+                VALUES ($1, $2)`,[event, clothing_item]
+    );
+    res.json(rows);
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Internal server error during event clothes add' });
+  }
+});
+
+router.post('/clothes/remove', async (req, res) => {
+  try {
+    const { event, clothing_item } = req.body;
+    const { rows } = await db.query(
+        `
+               DELETE FROM event_listings
+               WHERE event_id = $1 AND clothing_id = $2`,[event, clothing_item]
+    );
+    res.json(rows);
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Internal server error during login' });
+  }
+});
+
 // Get all events
 router.get('/', async (req, res) => {
   try {
     const { page = 1, limit = 10,  organization} = req.query;
-    const offset = (page - 1) * limit;
     
     const { rows } = await db.query(
       `SELECT 

@@ -139,6 +139,16 @@ const createTables = async () => {
     `);
     console.log("Bookmarks table created successfully");
 
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS event_listings (
+          id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+          event_id UUID REFERENCES users(id) ON DELETE CASCADE,
+          clothing_id UUID REFERENCES clothing_items(id) ON DELETE CASCADE,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log("Bookmarks table created successfully");
+
     const users = JSON.parse(fs.readFileSync('data/users.json', 'utf8'));
 
     for (const user of users) {
