@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { authenticateToken } = require('../middleware/auth.middleware');
 const db = require('../config/database');
-const multer = require("multer");
-const multerS3 = require("multer-s3");
-const AWS = require('aws-sdk');
-const fs = require('fs');
 /* IMPORTANT NOTE: 
     "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
     Otherwise an unauthorized error will be returned.
@@ -93,7 +89,7 @@ router.get('/', async (req, res) => {
 router.post('/', authenticateToken, async (req, res) => {
   try {
     const {
-      base64Image,
+      imageUrl,
       title,
       description,
       category,
@@ -101,6 +97,7 @@ router.post('/', authenticateToken, async (req, res) => {
       condition,
       purchase_price,
       rental_price,
+      owner
     } = req.body;
 
     console.log("Request Body:", req.body);
@@ -110,28 +107,6 @@ router.post('/', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-
-    // Validate input
-    if (!base64Image) {
-      return res.status(400).json({ error: "Base64 image is required" });
-    }
-
-    // Extract Base64 data
-    const base64Parts = base64Image.split(";base64,");
-    const mimeType = base64Parts[0].split(":")[1];
-    const buffer = Buffer.from(base64Parts[1], "base64");
-
-    // Upload to S3
-    const s3Response = await s3.upload({
-      Bucket: process.env.BUCKET_NAME,
-      Key: `images/${Date.now()}_image.jpg`,
-      Body: buffer,
-      ContentType: mimeType,
-      ACL: "public-read",
-    }).promise();
-
-    const imageUrl = s3Response.Location;
-
     const { rows } = await db.query(
         `INSERT INTO clothing_items 
        (owner_id, title, description, category, size, condition, 
@@ -139,7 +114,7 @@ router.post('/', authenticateToken, async (req, res) => {
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING *`,
         [
-          req.user.id,
+          owner,
           title,
           description,
           category,
