@@ -7,12 +7,6 @@ const db = require('../config/database');
     Otherwise an unauthorized error will be returned.
 */
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.ACCESS_KEY,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
-  region: process.env.BUCKET_REGION,
-});
-
 // Get all items with pagination and filters
 router.get('/', async (req, res) => {
   try {
