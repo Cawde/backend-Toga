@@ -89,7 +89,7 @@ router.get('/', async (req, res) => {
 });
 
 
-router.post('/', authenticateToken, upload.single('image'), async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const {
       base64Image,
