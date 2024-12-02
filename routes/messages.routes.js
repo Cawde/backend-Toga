@@ -31,23 +31,20 @@ router.get('/conversations', authenticateToken, async (req, res) => {
   try {
     const { rows } = await db.query(
       `SELECT DISTINCT 
-         CASE 
-           WHEN m.sender_id = $1 THEN m.receiver_id
-           ELSE m.sender_id
-         END as other_user_id,
+         u.id as user_id,
          u.username,
          u.profile_picture_url,
          (SELECT content 
-          FROM messages 
-          WHERE (sender_id = $1 AND receiver_id = other_user_id)
-             OR (sender_id = other_user_id AND receiver_id = $1)
-          ORDER BY created_at DESC 
+          FROM messages m2
+          WHERE (m2.sender_id = $1 AND m2.receiver_id = u.id)
+             OR (m2.sender_id = u.id AND m2.receiver_id = $1)
+          ORDER BY m2.created_at DESC 
           LIMIT 1) as last_message,
          (SELECT created_at 
-          FROM messages 
-          WHERE (sender_id = $1 AND receiver_id = other_user_id)
-             OR (sender_id = other_user_id AND receiver_id = $1)
-          ORDER BY created_at DESC 
+          FROM messages m2
+          WHERE (m2.sender_id = $1 AND m2.receiver_id = u.id)
+             OR (m2.sender_id = u.id AND m2.receiver_id = $1)
+          ORDER BY m2.created_at DESC 
           LIMIT 1) as last_message_time
        FROM messages m
        JOIN users u ON (CASE 
