@@ -17,17 +17,6 @@ const s3 = new AWS.S3({
   region: process.env.BUCKET_REGION,
 });
 
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: process.env.BUCKET_NAME,
-    acl: 'public-read',
-    key: (req, file, cb) => {
-      cb(null, `images/${Date.now()}_${file.originalname}`);
-    },
-  }),
-});
-
 // Get all items with pagination and filters
 router.get('/', async (req, res) => {
   try {

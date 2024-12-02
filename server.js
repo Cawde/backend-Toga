@@ -51,6 +51,9 @@ app.use((err, req, res, next) => {
     .json({ error: "**ERROR** Something went wrong with the server!" });
 });
 
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
 const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
