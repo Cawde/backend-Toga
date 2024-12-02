@@ -109,8 +109,27 @@ router.post('/', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // Placeholder for the uploaded image URL
-    const imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/769px-Cat03.jpg"; // Replace this with actual image handling logic.
+
+    // Validate input
+    if (!base64Image) {
+      return res.status(400).json({ error: "Base64 image is required" });
+    }
+
+    // Extract Base64 data
+    const base64Parts = base64Image.split(";base64,");
+    const mimeType = base64Parts[0].split(":")[1];
+    const buffer = Buffer.from(base64Parts[1], "base64");
+
+    // Upload to S3
+    const s3Response = await s3.upload({
+      Bucket: process.env.BUCKET_NAME,
+      Key: `images/${Date.now()}_image.jpg`,
+      Body: buffer,
+      ContentType: mimeType,
+      ACL: "public-read",
+    }).promise();
+
+    const imageUrl = s3Response.Location;
 
     const { rows } = await db.query(
         `INSERT INTO clothing_items 
