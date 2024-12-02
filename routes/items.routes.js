@@ -5,6 +5,7 @@ const db = require('../config/database');
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const AWS = require('aws-sdk');
+const fs = require('fs');
 /* IMPORTANT NOTE: 
     "authenticateToken" means that the user's token MUST BE passed into the header when doing an HTTP Request for that function to work. 
     Otherwise an unauthorized error will be returned.
@@ -26,7 +27,6 @@ const upload = multer({
     },
   }),
 });
-
 
 // Get all items with pagination and filters
 router.get('/', async (req, res) => {
@@ -103,6 +103,7 @@ router.get('/', async (req, res) => {
 router.post('/', authenticateToken, upload.single('image'), async (req, res) => {
   try {
     const {
+      base64Image,
       title,
       description,
       category,
@@ -112,25 +113,27 @@ router.post('/', authenticateToken, upload.single('image'), async (req, res) => 
       rental_price,
     } = req.body;
 
-    // Check if file exists and process it
-    if (!req.file) {
-      return res.status(400).json({ error: "Image is required" });
+
+    // Validate input
+    if (!base64Image) {
+      return res.status(400).json({ error: "Base64 image is required" });
     }
 
-    const file = req.file;  // Get the file uploaded by multer
-    console.log("File received: ", file);
+    // Extract Base64 data
+    const base64Parts = base64Image.split(";base64,");
+    const mimeType = base64Parts[0].split(":")[1];
+    const buffer = Buffer.from(base64Parts[1], "base64");
 
-    // Upload the file to S3
+    // Upload to S3
     const s3Response = await s3.upload({
       Bucket: process.env.BUCKET_NAME,
-      Key: `${Date.now()}_${file.originalname}`,  // Use original file name or generate a unique one
-      Body: file.buffer,
-      ContentType: 'image/jpeg',
-      ACL: 'public-read',
+      Key: `images/${Date.now()}_image.jpg`,
+      Body: buffer,
+      ContentType: mimeType,
+      ACL: "public-read",
     }).promise();
 
-    console.log("S3 upload success:", s3Response);
-    const imageUrl = s3Response.Location;  // Get the S3 URL of the uploaded image
+    const imageUrl = s3Response.Location;
 
     const { rows } = await db.query(
         `INSERT INTO clothing_items 
