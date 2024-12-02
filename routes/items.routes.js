@@ -102,27 +102,15 @@ router.post('/', authenticateToken, async (req, res) => {
       rental_price,
     } = req.body;
 
+    console.log("Request Body:", req.body);
 
-    // // Validate input
-    // if (!base64Image) {
-    //   return res.status(400).json({ error: "Base64 image is required" });
-    // }
-    //
-    // // Extract Base64 data
-    // const base64Parts = base64Image.split(";base64,");
-    // const mimeType = base64Parts[0].split(":")[1];
-    // const buffer = Buffer.from(base64Parts[1], "base64");
-    //
-    // // Upload to S3
-    // const s3Response = await s3.upload({
-    //   Bucket: process.env.BUCKET_NAME,
-    //   Key: `images/${Date.now()}_image.jpg`,
-    //   Body: buffer,
-    //   ContentType: mimeType,
-    //   ACL: "public-read",
-    // }).promise();
-    //
-    // const imageUrl = s3Response.Location;
+    // Validation for required fields
+    if (!title || !description || !category || !size || !condition) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    // Placeholder for the uploaded image URL
+    const imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/769px-Cat03.jpg"; // Replace this with actual image handling logic.
 
     const { rows } = await db.query(
         `INSERT INTO clothing_items 
@@ -130,11 +118,20 @@ router.post('/', authenticateToken, async (req, res) => {
         purchase_price, rental_price, images)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING *`,
-        [req.user.id, title, description, category, size, condition,
-          purchase_price, rental_price, ["Hello"]]
+        [
+          req.user.id,
+          title,
+          description,
+          category,
+          size,
+          condition,
+          purchase_price || 0,
+          rental_price || 0,
+          [imageUrl],
+        ]
     );
 
-    res.status(201).json(rows[0]);  // Return the created item
+    res.status(201).json(rows[0]); // Return the created item
   } catch (error) {
     console.error("Error during image upload:", error);
     res.status(500).json({ error: error.message });
