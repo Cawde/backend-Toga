@@ -123,12 +123,13 @@ router.post('/', authenticateToken, upload.single('image'), async (req, res) => 
     // Upload the file to S3
     const s3Response = await s3.upload({
       Bucket: process.env.BUCKET_NAME,
-      Key: `images/${Date.now()}_${file.originalname}`,  // Use original file name or generate a unique one
+      Key: `${Date.now()}_${file.originalname}`,  // Use original file name or generate a unique one
       Body: file.buffer,
-      ContentType: file.mimetype,
+      ContentType: 'image/jpeg',
       ACL: 'public-read',
     }).promise();
 
+    console.log("S3 upload success:", s3Response);
     const imageUrl = s3Response.Location;  // Get the S3 URL of the uploaded image
 
     const { rows } = await db.query(
