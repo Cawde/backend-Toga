@@ -22,7 +22,6 @@ router.get('/', async (req, res) => {
   try {
     const { page = 1, limit = 10, category, size, organization, user } = req.query;
     const offset = (page - 1) * limit;
-    const queryParams = [];
 
     let query = `
       SELECT 
@@ -48,6 +47,8 @@ router.get('/', async (req, res) => {
       LEFT JOIN bookmarks b 
       ON ci.id = b.clothing_id AND b.user_id = $${queryParams.length + 1}
     `;
+
+    const queryParams = [];
 
     if (organization) {
       query += `
