@@ -75,7 +75,7 @@
     "rental_price": 6.99,
     "is_available_for_rent": true,
     "is_available_for_sale": true,
-    "images": ["floral_skirt"]
+    "images": ["floral_skirt.png"]
   },
   {
     "username": "davidclark",
