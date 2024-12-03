@@ -1,26 +1,32 @@
 [
   {
     "owner_name": "johndoe",
-    "name": "Alpha Phi Alpha",
+    "name": "Alpha Delta Pi",
     "created_at": "2024-11-01 12:00:00",
     "updated_at": "2024-11-01 12:00:00"
   },
   {
     "owner_name": "janesmith",
-    "name": "Delta Sigma Theta",
+    "name": "Alpha Delta Pi",
     "created_at": "2024-11-02 14:30:00",
     "updated_at": "2024-11-02 14:30:00"
   },
   {
     "owner_name": "alexjones",
-    "name": "Kappa Alpha Psi",
+    "name": "Alpha Delta Pi",
     "created_at": "2024-11-03 15:45:00",
     "updated_at": "2024-11-03 15:45:00"
   },
   {
     "owner_name": "emilydavis",
-    "name": "Sigma Gamma Rho",
+    "name": "Alpha Delta Pi",
     "created_at": "2024-11-04 10:00:00",
     "updated_at": "2024-11-04 10:00:00"
+  },
+  {
+    "owner_name": "togaapp",
+    "name": "Alpha Delta Pi",
+    "created_at": "2024-11-05 12:00:00",
+    "updated_at": "2024-11-05 12:00:00"
   }
 ]

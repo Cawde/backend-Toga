@@ -58,5 +58,11 @@
     "username": "emmawhite",
     "full_name": "Emma White",
     "password": "emma1234"
+  },
+  {
+    "email": "toga.app@lsu.edu",
+    "username": "togaapp",
+    "full_name": "Toga App",
+    "password": "toga123"
   }
 ]
