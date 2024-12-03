@@ -1,16 +1,16 @@
 [
   {
-    "username": "johndoe",
-    "title": "Vintage Denim Jacket",
-    "description": "A classic denim jacket with a slightly worn look.",
-    "category": "Outerwear",
+    "username": "togaapp",
+    "title": "Christmas Sweater",
+    "description": "Cozy christmas sweater, perfect festive piece for the holidays.",
+    "category": "Tops",
     "size": "M",
-    "condition": "Good",
-    "purchase_price": 49.99,
-    "rental_price": 7.99,
+    "condition": "Very Good",
+    "purchase_price": 24.99,
+    "rental_price": 9.99,
     "is_available_for_rent": true,
     "is_available_for_sale": true,
-    "images": ["denim_jacket.png"]
+    "images": ["christmas_sweater.png"]
   },
   {
     "username": "emmawhite",
@@ -24,6 +24,19 @@
     "is_available_for_rent": true,
     "is_available_for_sale": true,
     "images": ["wool_sweater.png"]
+  },
+  {
+    "username": "johndoe",
+    "title": "Vintage Denim Jacket",
+    "description": "A classic denim jacket with a slightly worn look.",
+    "category": "Outerwear",
+    "size": "M",
+    "condition": "Good",
+    "purchase_price": 49.99,
+    "rental_price": 7.99,
+    "is_available_for_rent": true,
+    "is_available_for_sale": true,
+    "images": ["denim_jacket.png"]
   },
   {
     "username": "togaapp",
