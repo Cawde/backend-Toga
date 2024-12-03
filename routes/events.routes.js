@@ -27,11 +27,106 @@ router.post("/", authenticateToken, async (req, res) => {
   }
 });
 
+// // Get all events
+// router.get("/", async (req, res) => {
+//   try {
+//     const { page = 1, limit = 10, organization } = req.query;
+//     const offset = (page - 1) * limit;
+
+//     let query;
+//     let queryParams;
+
+//     if (organization) {
+//       // Query for organization-specific events
+//       query = `
+//         SELECT 
+//           e.id AS event_id,
+//           e.title,
+//           e.description,
+//           e.event_date AS event_begin,
+//           e.event_date + INTERVAL '3 days' AS event_end,
+//           e.location,
+//           e.image_url,
+//           o.name AS organizer_name
+//         FROM 
+//           events e
+//         JOIN 
+//           members m ON e.creator_id = m.organization_id
+//         JOIN 
+//           organizations o ON e.creator_id = o.id
+//         WHERE 
+//           m.user_id = $1
+//         ORDER BY 
+//           e.event_date ASC
+//         LIMIT $2 
+//         OFFSET $3`;
+//       queryParams = [organization, limit, offset];
+//     } else {
+//       // Query for all events
+//       query = `
+//         SELECT 
+//           e.id AS event_id,
+//           e.title,
+//           e.description,
+//           e.event_date AS event_begin,
+//           e.event_date + INTERVAL '3 days' AS event_end,
+//           e.location,
+//           e.image_url,
+//           o.name AS organizer_name
+//         FROM 
+//           events e
+//         JOIN 
+//           organizations o ON e.creator_id = o.id
+//         ORDER BY 
+//           e.event_date ASC
+//         LIMIT $1 
+//         OFFSET $2`;
+//       queryParams = [limit, offset];
+//     }
+
+//     const countQuery = organization
+//       ? `
+//         SELECT COUNT(*) 
+//         FROM events e 
+//         JOIN members m ON e.creator_id = m.organization_id 
+//         WHERE m.user_id = $1`
+//       : `SELECT COUNT(*) FROM events`;
+
+//     const countParams = organization ? [organization] : [];
+
+//     const [eventsResult, countResult] = await Promise.all([
+//       db.query(query, queryParams),
+//       db.query(countQuery, countParams),
+//     ]);
+
+//     const totalEvents = parseInt(countResult.rows[0].count);
+//     const totalPages = Math.ceil(totalEvents / limit);
+
+//     res.json({
+//       events: eventsResult.rows,
+//       pagination: {
+//         currentPage: parseInt(page),
+//         totalPages,
+//         totalEvents,
+//         hasNextPage: parseInt(page) < totalPages,
+//         hasPreviousPage: parseInt(page) > 1,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Error fetching events:", error);
+//     res.status(500).json({
+//       error: "Internal server error",
+//       message: error.message,
+//     });
+//   }
+// });
+
+
+// Without pagination for now
 // Get all events
 router.get("/", async (req, res) => {
   try {
-    const { page = 1, limit = 10, organization } = req.query;
-    const offset = (page - 1) * limit;
+    const { organization } = req.query;
 
     let query;
     let queryParams;
@@ -57,10 +152,8 @@ router.get("/", async (req, res) => {
         WHERE 
           m.user_id = $1
         ORDER BY 
-          e.event_date ASC
-        LIMIT $2 
-        OFFSET $3`;
-      queryParams = [organization, limit, offset];
+          e.event_date ASC`;
+      queryParams = [organization];
     } else {
       // Query for all events
       query = `
@@ -78,40 +171,13 @@ router.get("/", async (req, res) => {
         JOIN 
           organizations o ON e.creator_id = o.id
         ORDER BY 
-          e.event_date ASC
-        LIMIT $1 
-        OFFSET $2`;
-      queryParams = [limit, offset];
+          e.event_date ASC`;
+      queryParams = [];
     }
 
-    const countQuery = organization
-      ? `
-        SELECT COUNT(*) 
-        FROM events e 
-        JOIN members m ON e.creator_id = m.organization_id 
-        WHERE m.user_id = $1`
-      : `SELECT COUNT(*) FROM events`;
+    const { rows } = await db.query(query, queryParams);
+    res.json(rows);
 
-    const countParams = organization ? [organization] : [];
-
-    const [eventsResult, countResult] = await Promise.all([
-      db.query(query, queryParams),
-      db.query(countQuery, countParams),
-    ]);
-
-    const totalEvents = parseInt(countResult.rows[0].count);
-    const totalPages = Math.ceil(totalEvents / limit);
-
-    res.json({
-      events: eventsResult.rows,
-      pagination: {
-        currentPage: parseInt(page),
-        totalPages,
-        totalEvents,
-        hasNextPage: parseInt(page) < totalPages,
-        hasPreviousPage: parseInt(page) > 1,
-      },
-    });
   } catch (error) {
     console.error("Error fetching events:", error);
     res.status(500).json({
