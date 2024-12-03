@@ -62,7 +62,7 @@
     "rental_price": 2.99,
     "is_available_for_rent": true,
     "is_available_for_sale": false,
-    "images": ["striped_shirt.png"]
+    "images": ["striped_shirt.jpg"]
   },
   {
     "username": "sarahjohnson",
