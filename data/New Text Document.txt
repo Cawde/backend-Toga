@@ -1,7 +1,7 @@
 [
   {
     "username": "johndoe",
-    "orgname": "Alpha Phi Alpha"
+    "orgname": "Alpha Delta Pi"
   },
   {
     "username": "janesmith",
@@ -37,6 +37,6 @@
   },
   {
     "username": "emmawhite",
-    "orgname": "Alpha Phi Alpha",
+    "orgname": "Alpha Delta Pi",
   }
 ]
