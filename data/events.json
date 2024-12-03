@@ -1,6 +1,6 @@
 [
   {
-    "creator_name": "Alpha Phi Alpha",
+    "creator_name": "Alpha Delta Pi",
     "title": "Sustainability Workshop",
     "description": "A workshop focused on sustainable living practices and clothing upcycling.",
     "event_date": "2024-12-05 14:00:00",
@@ -8,7 +8,7 @@
     "image_url": "event1.jpg"
   },
   {
-    "creator_name": "Alpha Phi Alpha",
+    "creator_name": "Alpha Delta Pi",
     "title": "Holiday Clothing Swap",
     "description": "Celebrate the holidays by swapping clothes with friends and neighbors!",
     "event_date": "2024-12-10 17:00:00",
@@ -16,7 +16,7 @@
     "image_url": "event2.jpg"
   },
   {
-    "creator_name": "Alpha Phi Alpha",
+    "creator_name": "Alpha Delta Pi",
     "title": "Thrift Shopping Tour",
     "description": "Join us for a tour of the best thrift stores in Baton Rouge.",
     "event_date": "2024-12-15 10:00:00",
@@ -24,7 +24,7 @@
     "image_url": "event3.jpg"
   },
   {
-    "creator_name": "Delta Sigma Theta",
+    "creator_name": "Alpha Delta Pi",
     "title": "Fashion Repair Cafe",
     "description": "Bring your damaged clothes and learn how to repair them at this hands-on event.",
     "event_date": "2024-12-20 13:00:00",
@@ -32,7 +32,7 @@
     "image_url": "event4.jpg"
   },
   {
-    "creator_name": "Delta Sigma Theta",
+    "creator_name": "Alpha Delta Pi",
     "title": "Winter Coat Drive",
     "description": "Donate your gently used winter coats to help those in need.",
     "event_date": "2024-12-18 09:00:00",
@@ -40,7 +40,7 @@
     "image_url": "event5.jpg"
   },
   {
-    "creator_name": "Delta Sigma Theta",
+    "creator_name": "Alpha Delta Pi",
     "title": "Eco-Fashion Show",
     "description": "A showcase of student-designed clothing made from recycled materials.",
     "event_date": "2024-12-12 19:00:00",
@@ -48,7 +48,7 @@
     "image_url": "event6.jpg"
   },
   {
-    "creator_name": "Kappa Alpha Psi",
+    "creator_name": "Alpha Delta Pi",
     "title": "Community Yard Sale",
     "description": "Buy and sell pre-loved clothes and accessories in this community-wide event.",
     "event_date": "2024-12-09 08:00:00",
@@ -56,7 +56,7 @@
     "image_url": "event7.jpg"
   },
   {
-    "creator_name": "Kappa Alpha Psi",
+    "creator_name": "Alpha Delta Pi",
     "title": "Vintage Clothing Auction",
     "description": "Bid on unique vintage clothing pieces from local collections.",
     "event_date": "2024-12-14 16:00:00",
@@ -64,7 +64,7 @@
     "image_url": "event8.jpg"
   },
   {
-    "creator_name": "Sigma Gamma Rho",
+    "creator_name": "Alpha Delta Pi",
     "title": "Outdoor Gear Swap",
     "description": "Trade or sell your outdoor clothing and gear with fellow adventurers.",
     "event_date": "2024-12-11 15:00:00",
@@ -72,7 +72,7 @@
     "image_url": "event9.jpg"
   },
   {
-    "creator_name": "Sigma Gamma Rho",
+    "creator_name": "Alpha Delta Pi",
     "title": "DIY Tie-Dye Workshop",
     "description": "Learn the art of tie-dye and create your custom designs.",
     "event_date": "2024-12-07 11:00:00",
